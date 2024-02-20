@@ -11,6 +11,8 @@ function App() {
   const [categories, setCategories] = useState(CATEGORIES)
   const [categorySelector, setCategorySelector] = useState('')
 
+ 
+
   const deleteTask = (e) => {
     const taskText = e.target.parentElement.querySelector('.text').innerHTML
     const updatedTasks = tasks.filter(task => task.text !== taskText)
@@ -20,39 +22,39 @@ function App() {
 
   const filterTasks = (e) => {
     const newSelector = e.target.innerText
-    setCategorySelector(newSelector)
-  
-      if(categorySelector !== 'All') {
-        const filteredTasks = TASKS.filter((task) => task.category === categorySelector)
-        setTasks(filteredTasks)
-      } else {
-        setTasks(TASKS)
+    console.log(`Variable Clicked: ${newSelector}`)
+    setCategorySelector(() => newSelector)
+    console.log(`Current State: ${categorySelector}`)
 
-      }
+    if(categorySelector !== 'All') {
+      const filteredTasks = TASKS.filter((task) => task.category === categorySelector)
+      setTasks(filteredTasks)
+    } else {
+      setTasks(TASKS)
+
+    }
 
       
 
   }
 
+  const onTaskFormSubmit = (e, obj) => {
+    e.preventDefault();
 
+    setTasks([...tasks,obj])
 
-  useEffect(() => {
-    // This effect runs whenever categorySelector changes
-    console.log('Updated categorySelector:', categorySelector);
-    filterTasks()
-  }, [categorySelector]);
+    
 
-
-
-
-  
+  }
 
   return (
     <div className="App">
       <h2>My tasks</h2>
       <CategoryFilter categories={categories} filterTasks={filterTasks} categorySelector={categorySelector} />
-      <NewTaskForm />
+      <NewTaskForm categories={CATEGORIES} onTaskFormSubmit={onTaskFormSubmit} />
+
       <TaskList tasks={tasks} deleteTask={deleteTask}/>
+     
     </div>
   );
 }
