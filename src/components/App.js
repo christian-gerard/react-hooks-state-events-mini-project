@@ -7,9 +7,10 @@ import { CATEGORIES, TASKS } from "../data";
 
 
 function App() {
+
   const [tasks, setTasks] = useState(TASKS);
   const [categories, setCategories] = useState(CATEGORIES)
-  const [categorySelector, setCategorySelector] = useState('')
+  const [categorySelector, setCategorySelector] = useState('All')
 
  
 
@@ -21,20 +22,10 @@ function App() {
   }
 
   const filterTasks = (e) => {
+
     const newSelector = e.target.innerText
-    console.log(`Variable Clicked: ${newSelector}`)
-    setCategorySelector(() => newSelector)
-    console.log(`Current State: ${categorySelector}`)
 
-    if(categorySelector !== 'All') {
-      const filteredTasks = TASKS.filter((task) => task.category === categorySelector)
-      setTasks(filteredTasks)
-    } else {
-      setTasks(TASKS)
-
-    }
-
-      
+    setCategorySelector(newSelector)
 
   }
 
@@ -46,6 +37,14 @@ function App() {
     
 
   }
+  
+  const filteredTasks = tasks.filter((task) =>  categorySelector === 'All' || task.category === categorySelector)
+
+
+
+
+
+
 
   return (
     <div className="App">
@@ -53,7 +52,7 @@ function App() {
       <CategoryFilter categories={categories} filterTasks={filterTasks} categorySelector={categorySelector} />
       <NewTaskForm categories={CATEGORIES} onTaskFormSubmit={onTaskFormSubmit} />
 
-      <TaskList tasks={tasks} deleteTask={deleteTask}/>
+      <TaskList tasks={filteredTasks} deleteTask={deleteTask}/>
      
     </div>
   );

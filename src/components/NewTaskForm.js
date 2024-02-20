@@ -7,12 +7,9 @@ function NewTaskForm({categories,onTaskFormSubmit}) {
   const [category, setNewCategory] = useState('Code')
 
   const formObj = {
-
     category,
     text
   }
-
-
 
   const catOptions = categories.filter((cat) => cat !== 'All').map((x) => <option key={x}>{x}</option>)
 
